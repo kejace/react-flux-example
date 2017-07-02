@@ -4,7 +4,7 @@ module Canvas (canvasView) where
 
 import JavaScript.Web.Canvas
 import React.Flux
-import React.Flux.Lifecycle
+import React.Flux.Outdated --Lifecycle
 
 import Unsafe.Coerce
 

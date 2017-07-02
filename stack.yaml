@@ -1,8 +1,13 @@
 resolver: lts-7.19
 packages:
-  - '.'
+- '.'
+- location:
+    git: https://github.com/liqula/react-hs
+    commit: 3b77a36f3ed869ba37e870f40729017a3e0d5764
+  extra-dep: true
+  subdirs:
+  - react-hs
 extra-deps:
-  - react-flux-1.0.7
 compiler: ghcjs-0.2.1.9007019_ghc-8.0.1
 compiler-check: match-exact
 setup-info:

@@ -7,7 +7,7 @@ import Control.Monad
 import Data.Maybe
 import JavaScript.Web.XMLHttpRequest
 import React.Flux hiding (reqMethod, reqURI, reqHeaders)
-import React.Flux.Lifecycle
+import React.Flux.Outdated -- Lifecycle
 import qualified Data.JSString as S
 import qualified Data.Text as T
 
@@ -19,7 +19,7 @@ ajaxView =
       \st _ -> span_ [] $
       case st of
         Nothing -> "Loading ..."
-        Just t -> elemText $ T.unpack t
+        Just t -> elemText $ t -- T.unpack
     , lComponentDidMount =
       Just $ \_ _ setSt ->
       void $ async $

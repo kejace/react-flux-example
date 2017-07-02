@@ -19,7 +19,7 @@ executable react-flux-example
                      , Ajax
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
-                     , react-flux >= 1.0
+                     , react-hs
                      , deepseq
                      , ghcjs-base
                      , aeson

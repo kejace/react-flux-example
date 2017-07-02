@@ -1,8 +1,10 @@
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE TypeApplications #-}
 module Main where
 
 import Canvas
@@ -35,22 +37,25 @@ instance StoreData Counter where
           CounterIncrement -> idx + 1
           CounterDecrement -> idx - 1
 
-counterStore :: ReactStore Counter
-counterStore = mkStore (Counter 1000)
+--counterStore :: _ --ReactStore Counter
+--counterStore = mkStore (Counter 1000)
 
-dispatchCounter :: CounterAction -> [SomeStoreAction]
-dispatchCounter a = [SomeStoreAction counterStore a]
+initialCounter :: Counter
+initialCounter = Counter 100
 
-counterApp :: ReactView ()
-counterApp =
-    defineControllerView "Counter APP" counterStore $ \counterState () ->
-    div_ $
-    do span_ [] $ int_ $ unCounter counterState
-       button_ [ onClick $ \_ _ -> dispatchCounter CounterIncrement ] $ $(message "up-button" "Up") []
-       button_ [ onClick $ \_ _ -> dispatchCounter CounterDecrement ] $ $(message "down-button" "Down") []
-       br_ mempty
-       view ajaxView () mempty
-       view canvasView (2*pi * (fromIntegral (unCounter counterState) / 100)) mempty
+--dispatchCounter :: CounterAction -> [SomeStoreAction]
+--dispatchCounter a = [SomeStoreAction counterStore a]
+
+counterApp :: View '[]
+counterApp = error "counterApp not implemented"
+--   mkControllerView "Counter APP" @'[StoreArg CounterAction] $ \counterState () ->
+--     div_ $ do
+--        span_ [] $ int_ $ unCounter counterState
+--        button_ [ onClick $ \_ _ -> dispatchCounter CounterIncrement ] $ $(message "up-button" "Up") []
+--        button_ [ onClick $ \_ _ -> dispatchCounter CounterDecrement ] $ $(message "down-button" "Down") []
+--        br_ mempty
+--        --view_ ajaxView mempty
+--        --view_ canvasView (2*pi * (fromIntegral (unCounter counterState) / 100))
 
 lineChart :: [PropertyOrHandler eh] -> ReactElementM eh ()
 lineChart props = foreign_ "ReactChartLine" props mempty
@@ -100,20 +105,21 @@ mapExample =
         zoom :: Int
         zoom = 13
 
-realApp =
-    div_ $
-    do view counterApp () mempty
-       lcExample
-       mapExample
+-- realApp =
+--     div_ $ do
+--       view_ counterApp mempty
+--       lcExample
+--       mapExample
 
-app :: ReactView ()
-app =
-    defineView "core app" $ \() ->
-    intlProvider_ (JSString.unpack js_initialLocale) (Just $ js_myMessages js_initialLocale) Nothing $
-    realApp
+app :: View '[]
+app = error "app not implemented"
+    --mkView "core app" $ const $ do
+    --    intlProvider_ js_initialLocale (Just $ js_myMessages js_initialLocale) Nothing $ realApp
+
 main :: IO ()
-main =
-    reactRender "app" app ()
+main = do
+    registerInitialStore $ initialCounter
+    reactRenderView "app" app
 
 foreign import javascript unsafe
     "$r = window['config']['locale']"
