@@ -46,15 +46,14 @@ initialCounter = Counter 100
 --dispatchCounter :: CounterAction -> [SomeStoreAction]
 --dispatchCounter a = [SomeStoreAction counterStore a]
 
-counterApp :: View '[]
-counterApp = error "counterApp not implemented"
---   mkControllerView "Counter APP" @'[StoreArg CounterAction] $ \counterState () ->
+-- counterApp :: View '[]
+-- counterApp = mkControllerView "Counter APP" @'[StoreArg Counter] $ \counterState ->
 --     div_ $ do
---        span_ [] $ int_ $ unCounter counterState
---        button_ [ onClick $ \_ _ -> dispatchCounter CounterIncrement ] $ $(message "up-button" "Up") []
---        button_ [ onClick $ \_ _ -> dispatchCounter CounterDecrement ] $ $(message "down-button" "Down") []
+--       -- span_ [] $ int_ $ unCounter counterState
+--       -- button_ [ onClick $ \_ _ -> dispatchCounter CounterIncrement ] $ $(message "up-button" "Up") []
+--       -- button_ [ onClick $ \_ _ -> dispatchCounter CounterDecrement ] $ $(message "down-button" "Down") []
 --        br_ mempty
---        --view_ ajaxView mempty
+--        view_ ajaxView mempty
 --        --view_ canvasView (2*pi * (fromIntegral (unCounter counterState) / 100))
 
 lineChart :: [PropertyOrHandler eh] -> ReactElementM eh ()
@@ -105,16 +104,16 @@ mapExample =
         zoom :: Int
         zoom = 13
 
--- realApp =
---     div_ $ do
---       view_ counterApp mempty
---       lcExample
---       mapExample
+realApp =
+    div_ $ do
+--      view_ counterApp mempty
+--      lcExample
+      mapExample
 
 app :: View '[]
-app = error "app not implemented"
-    --mkView "core app" $ const $ do
-    --    intlProvider_ js_initialLocale (Just $ js_myMessages js_initialLocale) Nothing $ realApp
+app = mkView "core app" $ header_ ["id" $= "header"] $ do
+      --  intlProvider_ js_initialLocale (Just $ js_myMessages js_initialLocale) Nothing $ realApp
+      realApp
 
 main :: IO ()
 main = do

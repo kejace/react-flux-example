@@ -16,7 +16,7 @@ rm -rf $PROD_FILE
 rm -rf $DEV_FILE
 
 echo "Stack build ..."
-stack build --fast
+stack build
 
 echo "Adding stubs ..."
 tmpfile=$(mktemp /tmp/rawapp.XXXXXX)
